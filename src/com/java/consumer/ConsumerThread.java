@@ -9,14 +9,13 @@ public class ConsumerThread implements Runnable {
 	@Override
 	public void run() {
 		resource=new Resource();
-		for(int i=0;i<resource.CAPACITY;i++) {
 			try {
-				resource.consume(i);
+				resource.consume();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-	}
+	
 
 }

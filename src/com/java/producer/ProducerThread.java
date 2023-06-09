@@ -10,14 +10,13 @@ public class ProducerThread implements Runnable {
 	@Override
 	public void run() {
 		resource=new Resource();
-		for(int i=0;i<resource.CAPACITY;i++) {
 		try {
-			resource.produce(i);
+			resource.produce();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}
+		
 	}
 
 }
