@@ -6,6 +6,14 @@ public class ProducerThread implements Runnable {
 	
 	
 	private Resource resource;
+	
+	
+
+	public ProducerThread() {
+		super();
+	}
+
+
 
 	@Override
 	public void run() {

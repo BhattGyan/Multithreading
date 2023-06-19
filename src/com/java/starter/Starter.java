@@ -15,7 +15,7 @@ public class Starter {
 		consumer.start();
 		
 		producer.join();
-		consumer.join();
+		consumer.join();	
 	}
 
 }

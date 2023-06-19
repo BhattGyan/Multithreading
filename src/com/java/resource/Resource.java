@@ -1,7 +1,7 @@
 package com.java.resource;
 
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Queue;
 
 /**
  * 
@@ -10,26 +10,30 @@ import java.util.List;
  * Create a resource like linkedList 
  * Create 2 methods to produce and consume the data from that List 
  *
+ *
+ *Produced : 1,2,3,4,5,6,7,8,9,10 
+ *Consumed : 1,2,3,4,5,6,7,8,9,10
  */
 
 public class Resource {
 	
-	private final static List<Integer> resourceList=new LinkedList<>();
+	private final static Queue<Integer> resourceQueue=new LinkedList<>();
 	public final Integer CAPACITY=10;
-	private volatile int element=1;
+	private static volatile int element=1;
 	//method to produce element in resource
 	public  void produce() throws InterruptedException {
 		while(true) {
 		System.out.println("Inside the produce method");
 
-		synchronized(this) {
-		if(resourceList.size()<CAPACITY) {
+		synchronized(resourceQueue) {
+		if(resourceQueue.size()<CAPACITY) {
 			System.out.println("element produced "+element+" by thread "+Thread.currentThread().getName());
-			resourceList.add(element);
-		notifyAll();	
-		element++;
+			resourceQueue.add(element);
+			element++;
+			resourceQueue.notify();	
 		} else {
-				wait();
+			System.out.println("ResourceQueue is full so Producer is in waiting state now");
+			resourceQueue.wait();
 			}
 		}
 			Thread.sleep(1000);
@@ -41,14 +45,16 @@ public class Resource {
 		
 		while(true) {
 		System.out.println("Inside the consume method");
-			synchronized (this) {
-				if(resourceList.size()>0) {
-					 System.out.println("element consumed-"
-                             + element+" by thread "+Thread.currentThread().getName());
-					resourceList.remove(0);
-					notifyAll();
+			synchronized (resourceQueue) {
+				if(resourceQueue.size()>0) {
+					int ele=resourceQueue.remove();
+					System.out.println("element consumed "
+                            + ele+" by thread "+Thread.currentThread().getName());
+					resourceQueue.notify();
 				} else {
-					wait();
+					System.out.println("ResourceQueue is empty so Consumer is in waiting state now");
+
+					resourceQueue.wait();
 				}
 			}
 		Thread.sleep(1000);

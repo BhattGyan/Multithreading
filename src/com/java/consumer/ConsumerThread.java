@@ -6,6 +6,10 @@ public class ConsumerThread implements Runnable {
 
 	private Resource resource;
 	
+	public ConsumerThread() {
+		super();
+	}
+
 	@Override
 	public void run() {
 		resource=new Resource();
